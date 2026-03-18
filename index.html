@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Uhr App">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Stell die Uhr!</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="celebrate"></div>
+
+<!-- NUMBER EXERCISE POPUP -->
+<div id="num-popup-overlay" class="hidden">
+  <div id="num-popup-box">
+    <div id="num-popup-title"></div>
+    <div id="num-popup-sub"></div>
+    <div id="num-popup-number"></div>
+    <input id="num-popup-input" type="text" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div id="num-popup-feedback" class="fb-neutral"></div>
+    <div id="num-popup-btns"></div>
+  </div>
+</div>
+<div id="disclaimer-overlay">
+  <div id="disclaimer-box">
+    <div id="disclaimer-icon">⏰</div>
+    <h2 id="disclaimer-title">Stell die Uhr!</h2>
+    <p id="disclaimer-text"></p>
+    <button id="disclaimer-btn">Verstanden</button>
+  </div>
+</div>
+
+<!-- SCREEN: Profil-Auswahl -->
+<div id="screen-profile" class="screen active">
+  <div class="profile-wrap">
+    <div class="profile-header">
+      <div class="app-logo">⏰</div>
+      <h1 id="ph-title">Wer spielt?</h1>
+    </div>
+    <div id="profile-list"></div>
+    <button class="btn btn-outline" id="btn-add-profile">+ Neues Profil</button>
+    <div id="lang-bar-profile"></div>
+  </div>
+</div>
+
+<!-- SCREEN: Haupt-App -->
+<div id="screen-app" class="screen">
+  <div id="app">
+    <div id="top-bar">
+      <button class="icon-btn" id="btn-back">←</button>
+      <div id="player-name-display"></div>
+      <button class="icon-btn" id="btn-settings">⚙</button>
+    </div>
+
+    <!-- Tagesaufgabe Banner -->
+    <div id="daily-banner" style="display:none">
+      <span id="daily-text"></span>
+      <div id="daily-dots"></div>
+    </div>
+
+    <!-- Abzeichen Hinweis -->
+    <div id="badge-toast" style="display:none"></div>
+
+    <!-- Balance banner -->
+    <div id="balance-banner" style="display:none;background:var(--primary-light);border:1px solid var(--primary);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:.75rem;font-size:12px;color:var(--primary);font-weight:600;"></div>
+
+    <div id="score-row">
+      <div class="score-card"><div class="score-label" id="lbl-correct">Richtig</div><div class="score-val" id="score-correct">0</div></div>
+      <div class="score-card"><div class="score-label" id="lbl-total">Gesamt</div><div class="score-val" id="score-total">0</div></div>
+      <div class="score-card"><div class="score-label" id="lbl-streak">Serie</div><div class="score-val stars" id="score-streak">—</div></div>
+    </div>
+    <div id="progress-wrap"><div id="progress-bar"></div></div>
+
+    <!-- Lernpfad -->
+    <div id="path-row"></div>
+
+    <div id="mode-tabs"></div>
+    <div id="difficulty-row"><span class="diff-label" id="lbl-level">Stufe:</span></div>
+
+    <div id="task-card">
+      <div id="timer-bar-wrap" style="display:none"><div id="timer-bar"></div></div>
+      <div id="task-text"></div>
+      <div id="task-sub"></div>
+      <div id="clock-wrap"><svg id="clock-svg" width="220" height="220" viewBox="0 0 220 220"></svg></div>
+      <div id="text-task-box" style="display:none">
+        <div id="text-task-main"></div>
+        <div id="text-task-hint"></div>
+      </div>
+      <div id="answer-grid" style="display:none"></div>
+      <div id="word-area" style="display:none">
+        <div id="word-bank"></div>
+        <div id="word-answer"></div>
+      </div>
+      <div id="feedback" class="fb-neutral"></div>
+      <div id="btn-row"></div>
+    </div>
+
+    <!-- Abzeichen Galerie -->
+    <div id="badges-section">
+      <div class="section-title" id="lbl-badges">Abzeichen</div>
+      <div id="badges-grid"></div>
+    </div>
+
+    <!-- Zahlen Statistik -->
+    <div id="num-stats-section" style="display:none">
+      <div class="section-title" id="lbl-num-stats">Zahlen-Statistik</div>
+      <div id="num-stats-total" style="font-size:13px;color:var(--muted);margin-bottom:.5rem;"></div>
+      <div class="num-stats-grid" id="num-stats-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: Einstellungen -->
+<div id="screen-settings" class="screen">
+  <div class="settings-wrap">
+    <button class="icon-btn" id="btn-settings-back">←</button>
+    <h2 id="settings-title">Einstellungen</h2>
+    <div class="setting-row">
+      <label id="lbl-dark-setting">Dunkelmodus</label>
+      <button class="toggle-btn" id="btn-dark-toggle">AUS</button>
+    </div>
+    <div class="setting-row">
+      <label id="lbl-timer-setting">Zeitlimit</label>
+      <div id="timer-options"></div>
+    </div>
+    <div class="setting-row">
+      <label id="lbl-speech-setting">Vorlesen</label>
+      <button class="toggle-btn" id="btn-speech-toggle">EIN</button>
+    </div>
+    <div class="setting-row">
+      <label id="lbl-sound-setting">Ton</label>
+      <button class="toggle-btn" id="btn-sound-toggle">EIN</button>
+    </div>
+    <div class="setting-row">
+      <label id="lbl-lang-setting">Sprache</label>
+      <div id="lang-bar-settings"></div>
+    </div>
+    <div class="setting-row danger-row">
+      <label id="lbl-reset">Fortschritt zurücksetzen</label>
+      <button class="btn btn-danger" id="btn-reset">Zurücksetzen</button>
+    </div>
+    <div id="about-section"></div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="audio.js"></script>
+<script src="clock.js"></script>
+<script src="badges.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
